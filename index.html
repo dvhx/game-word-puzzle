@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Word puzzle</title>
+    <link rel="stylesheet" href="css/index.css" type="text/css" />
+    <link rel="shortcut icon" href="icon/16.png" type="image/png" />
+
+    <script type="text/javascript" src="js/corpus.js"></script>
+    <script type="text/javascript" src="js/arrows.js"></script>
+    <script type="text/javascript" src="js/stats.js"></script>
+    <script type="text/javascript" src="js/storage.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+  </head>
+  <body>
+
+    <table class="big" id="bg">
+        <tr>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        <tr>
+            <td id="bg_0_0">&nbsp;</td>
+            <td id="bg_0_1">&nbsp;</td>
+            <td id="bg_0_2">&nbsp;</td>
+            <td id="bg_0_3">&nbsp;</td>
+            <td id="bg_0_4">&nbsp;</td>
+            <td id="bg_0_5">&nbsp;</td>
+            <td id="bg_0_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_1_0">&nbsp;</td>
+            <td id="bg_1_1">&nbsp;</td>
+            <td id="bg_1_2">&nbsp;</td>
+            <td id="bg_1_3">&nbsp;</td>
+            <td id="bg_1_4">&nbsp;</td>
+            <td id="bg_1_5">&nbsp;</td>
+            <td id="bg_1_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_2_0">&nbsp;</td>
+            <td id="bg_2_1">&nbsp;</td>
+            <td id="bg_2_2">&nbsp;</td>
+            <td id="bg_2_3">&nbsp;</td>
+            <td id="bg_2_4">&nbsp;</td>
+            <td id="bg_2_5">&nbsp;</td>
+            <td id="bg_2_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_3_0">&nbsp;</td>
+            <td id="bg_3_1">&nbsp;</td>
+            <td id="bg_3_2">&nbsp;</td>
+            <td id="bg_3_3">&nbsp;</td>
+            <td id="bg_3_4">&nbsp;</td>
+            <td id="bg_3_5">&nbsp;</td>
+            <td id="bg_3_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_4_0">&nbsp;</td>
+            <td id="bg_4_1">&nbsp;</td>
+            <td id="bg_4_2">&nbsp;</td>
+            <td id="bg_4_3">&nbsp;</td>
+            <td id="bg_4_4">&nbsp;</td>
+            <td id="bg_4_5">&nbsp;</td>
+            <td id="bg_4_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_5_0">&nbsp;</td>
+            <td id="bg_5_1">&nbsp;</td>
+            <td id="bg_5_2">&nbsp;</td>
+            <td id="bg_5_3">&nbsp;</td>
+            <td id="bg_5_4">&nbsp;</td>
+            <td id="bg_5_5">&nbsp;</td>
+            <td id="bg_5_6">&nbsp;</td>
+        </tr>
+        <tr>
+            <td id="bg_6_0">&nbsp;</td>
+            <td id="bg_6_1">&nbsp;</td>
+            <td id="bg_6_2">&nbsp;</td>
+            <td id="bg_6_3">&nbsp;</td>
+            <td id="bg_6_4">&nbsp;</td>
+            <td id="bg_6_5">&nbsp;</td>
+            <td id="bg_6_6">&nbsp;</td>
+        </tr>
+    </table>
+
+    <canvas id="canvas"></canvas>
+
+    <table class="big" id="fg">
+        <tr>
+            <th id="next0">&nbsp;</th>
+            <th id="next1">&nbsp;</th>
+            <th id="next2">&nbsp;</th>
+            <th id="next3">&nbsp;</th>
+            <th id="next4">&nbsp;</th>
+            <th id="next5">&nbsp;</th>
+            <th id="life">10</th>
+        </tr>
+        <tr>
+            <td x="0" y="0">&nbsp;</td>
+            <td x="1" y="0">&nbsp;</td>
+            <td x="2" y="0">&nbsp;</td>
+            <td x="3" y="0">&nbsp;</td>
+            <td x="4" y="0">&nbsp;</td>
+            <td x="5" y="0">&nbsp;</td>
+            <td x="6" y="0">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="1">&nbsp;</td>
+            <td x="1" y="1">&nbsp;</td>
+            <td x="2" y="1">&nbsp;</td>
+            <td x="3" y="1">&nbsp;</td>
+            <td x="4" y="1">&nbsp;</td>
+            <td x="5" y="1">&nbsp;</td>
+            <td x="6" y="1">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="2">&nbsp;</td>
+            <td x="1" y="2">&nbsp;</td>
+            <td x="2" y="2">&nbsp;</td>
+            <td x="3" y="2">&nbsp;</td>
+            <td x="4" y="2">&nbsp;</td>
+            <td x="5" y="2">&nbsp;</td>
+            <td x="6" y="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="3">&nbsp;</td>
+            <td x="1" y="3">&nbsp;</td>
+            <td x="2" y="3">&nbsp;</td>
+            <td x="3" y="3">&nbsp;</td>
+            <td x="4" y="3">&nbsp;</td>
+            <td x="5" y="3">&nbsp;</td>
+            <td x="6" y="3">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="4">&nbsp;</td>
+            <td x="1" y="4">&nbsp;</td>
+            <td x="2" y="4">&nbsp;</td>
+            <td x="3" y="4">&nbsp;</td>
+            <td x="4" y="4">&nbsp;</td>
+            <td x="5" y="4">&nbsp;</td>
+            <td x="6" y="4">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="5">&nbsp;</td>
+            <td x="1" y="5">&nbsp;</td>
+            <td x="2" y="5">&nbsp;</td>
+            <td x="3" y="5">&nbsp;</td>
+            <td x="4" y="5">&nbsp;</td>
+            <td x="5" y="5">&nbsp;</td>
+            <td x="6" y="5">&nbsp;</td>
+        </tr>
+        <tr>
+            <td x="0" y="6">&nbsp;</td>
+            <td x="1" y="6">&nbsp;</td>
+            <td x="2" y="6">&nbsp;</td>
+            <td x="3" y="6">&nbsp;</td>
+            <td x="4" y="6">&nbsp;</td>
+            <td x="5" y="6">&nbsp;</td>
+            <td x="6" y="6">&nbsp;</td>
+        </tr>
+    </table>
+
+    <!-- intro -->
+    <div id="intro" style="display: none;">
+        <article>
+            <h1>Word puzzle</h1>
+            <p>Fill entire table by placing letters. When you create English
+            word in any direction (left, right, up, down) you get 1 point, if
+            you don't create word you lose 1 point. If your points drop to zero
+            it's game over.
+            </p>
+            <button id="playfromintro">Play</button>
+        </article>
+    </div>
+
+    <!-- end -->
+    <div id="end" style="display: none;">
+        <article id="endarticle">
+            <h1 id="endtitle">Word puzzle</h1>
+            <table id="endstats" style="display: none;">
+                <tr>
+                    <th>Score</th>
+                    <td id="endscore">0</td>
+                </tr>
+                <tr>
+                    <th>Longest word</th>
+                    <td id="endlongest">?</td>
+                </tr>
+                <tr>
+                    <th>Words found</th>
+                    <td id="endfound">0</td>
+                </tr>
+                <tr>
+                    <th>Wins in a row</th>
+                    <td id="endwir">0</td>
+                </tr>
+            </table>
+            <nav>
+                <button id="play">Play again</button>
+            </nav>
+        </article>
+    </div>
+
+  </body>
+</html>
