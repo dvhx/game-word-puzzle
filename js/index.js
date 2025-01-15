@@ -295,14 +295,11 @@ SC.onClickTd = function (event) {
 
 // initialize window
 window.addEventListener('DOMContentLoaded', function () {
-    // show intro first 3 times
-    if (SC.storage.readNumber('SC.intro', 0) < 3) {
-        document.getElementById('intro').style.display = 'flex';
-        document.getElementById('playfromintro').addEventListener('click', function () {
-            document.getElementById('intro').style.display = 'none';
-        });
-        SC.storage.inc('SC.intro');
-    }
+    // show intro
+    document.getElementById('intro').style.display = 'flex';
+    document.getElementById('playfromintro').addEventListener('click', function () {
+        document.getElementById('intro').style.display = 'none';
+    });
 
     SC.nextRender();
     var i, td = document.getElementsByTagName('td');
