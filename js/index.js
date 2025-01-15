@@ -1,6 +1,7 @@
 // Main window
 "use strict";
-// globals: document, window, corpus
+// linter: ngspicejs-lint
+// global: document, window, corpus, console, URL
 
 var SC = SC || {};
 
@@ -78,6 +79,13 @@ SC.end = function (aTitle) {
         } else {
             winsInRow = SC.storage.inc('SC.winsInRow');
         }
+        SC.lastGame = {
+            win: !lost,
+            score: SC.life,
+            longest: SC.stats.longest(),
+            words: SC.stats.words.length,
+            winsInRow
+        };
         SC.storage.writeBoolean('SC.started', false);
         endarticle.style.backgroundColor = lost ? '#fa7' : '#7af';
         endtitle.textContent = aTitle;
@@ -293,6 +301,13 @@ SC.onClickTd = function (event) {
     }
 };
 
+SC.quit = function () {
+    // Tell parent window to close this if it runs in an iframe
+    var data = {action: 'quit', data: SC.lastGame};
+    console.log('window.parent.postMessage', data);
+    window.parent.postMessage(data);
+};
+
 // initialize window
 window.addEventListener('DOMContentLoaded', function () {
     // show intro
@@ -305,6 +320,18 @@ window.addEventListener('DOMContentLoaded', function () {
     var i, td = document.getElementsByTagName('td');
     for (i = 0; i < td.length; i++) {
         td[i].addEventListener('click', SC.onClickTd);
+    }
+
+    // optional quit label
+    var quit_label = (new URL(document.location)).searchParams.get('quit');
+    if (quit_label) {
+        console.log('quit', quit_label);
+        document.getElementById('quit1').textContent = quit_label;
+        document.getElementById('quit2').textContent = quit_label;
+        document.getElementById('quit1').onclick = SC.quit;
+        document.getElementById('quit2').onclick = SC.quit;
+        document.getElementById('quit1').style.display = '';
+        document.getElementById('quit2').style.display = '';
     }
 });
 
