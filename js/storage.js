@@ -1,4 +1,4 @@
-// Simplified access to localStorage with extra checks to catch stupid bugs
+// Simplified access to localStorage with extra checks (it seems to be little bit more anal than necessary but I want to catch as many stupid bugs as possible)
 "use strict";
 // require: none
 // globals: localStorage, window
@@ -8,6 +8,7 @@ var SC = window.SC || {};
 SC.storage = (function () {
     var self = {};
     self.ops = 0;
+    self.prefix = '';
 
     function cb(aCallback, aValue) {
         // if callback is function call it with value
@@ -22,7 +23,7 @@ SC.storage = (function () {
             throw "SC.storage.keyExists key " + aKey + " is not string!";
         }
         try {
-            var r = localStorage.hasOwnProperty(aKey);
+            var r = localStorage.hasOwnProperty(self.prefix + aKey);
             cb(aCallback, r);
             return r;
         } catch (e) {
@@ -35,16 +36,16 @@ SC.storage = (function () {
         if (typeof aKey !== 'string') {
             throw "SC.storage.erase key " + aKey + " is not string!";
         }
-        localStorage.removeItem(aKey);
+        localStorage.removeItem(self.prefix + aKey);
     };
 
     self.size = function (aKey, aCallback) {
         // return size of a key's value in bytes
-        if (!localStorage.hasOwnProperty(aKey)) {
+        if (!localStorage.hasOwnProperty(self.prefix + aKey)) {
             cb(aCallback, 0);
             return 0;
         }
-        var r = localStorage.getItem(aKey).length;
+        var r = localStorage.getItem(self.prefix + aKey).length;
         cb(aCallback, r);
         return r;
     };
@@ -73,7 +74,7 @@ SC.storage = (function () {
         var k, keys = [];
         for (k in localStorage) {
             if (localStorage.hasOwnProperty(k)) {
-                keys.push(k);
+                keys.push(k.substr(self.prefix.length));
             }
         }
         cb(aCallback, keys);
@@ -94,9 +95,11 @@ SC.storage = (function () {
         for (i = 0; i < keys.length; i++) {
             c = self.size(keys[i]);
             t += c;
-            s.push(keys[i] + ': ' + c + ' B = ' + self.readString(keys[i], '').substr(0, 80) + '...');
+            s.push(self.prefix + keys[i] + ': ' + c + ' B = ' + self.readString(keys[i], '').substr(0, 80) + '...');
+            console.log(self.prefix + keys[i] + ': ' + c + ' B = ' + self.readString(keys[i], '').substr(0, 80) + '...');
         }
         s.push('Total size: ' + t + ' B (' + (t / 1000).toFixed(0) + ' kB)');
+        console.log('Total size: ' + t + ' B (' + (t / 1000).toFixed(0) + ' kB)');
         s = s.join('\n');
         cb(aCallback, s);
         return s;
@@ -113,8 +116,8 @@ SC.storage = (function () {
         }
         self.ops++;
         try {
-            if (localStorage.hasOwnProperty(aKey)) {
-                r = localStorage.getItem(aKey);
+            if (localStorage.hasOwnProperty(self.prefix + aKey)) {
+                r = localStorage.getItem(self.prefix + aKey);
             } else {
                 r = aDefault;
             }
@@ -135,7 +138,7 @@ SC.storage = (function () {
         }
         self.ops++;
         try {
-            localStorage.setItem(aKey, aValue);
+            localStorage.setItem(self.prefix + aKey, aValue);
         } catch (e) {
             console.warn('SC.storage.writeString: ' + e);
         }

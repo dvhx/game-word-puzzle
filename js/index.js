@@ -3,7 +3,7 @@
 // linter: ngspicejs-lint
 // global: document, window, corpus, console, URL
 
-var SC = SC || {};
+var SC = window.SC || {};
 
 // prevent avoiding game over by doing refresh when game over is imminent
 if (SC.storage.readBoolean('SC.started', false)) {
